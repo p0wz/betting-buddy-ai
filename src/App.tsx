@@ -2,8 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Auth from "./pages/Auth";
+import AppHome from "./pages/AppHome";
+import Live from "./pages/Live";
+import Predictions from "./pages/Predictions";
+import Profile from "./pages/Profile";
+import Premium from "./pages/Premium";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +20,13 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<Navigate to="/auth" replace />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/app" element={<AppHome />} />
+          <Route path="/app/live" element={<Live />} />
+          <Route path="/app/predictions" element={<Predictions />} />
+          <Route path="/app/profile" element={<Profile />} />
+          <Route path="/premium" element={<Premium />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
