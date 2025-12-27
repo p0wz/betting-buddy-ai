@@ -108,12 +108,15 @@ const Predictions = () => {
     ? predictions 
     : predictions.filter(p => p.status === filter);
 
+  const completedPredictions = predictions.filter(p => p.status !== "pending");
   const stats = {
     total: predictions.length,
     won: predictions.filter(p => p.status === "won").length,
     lost: predictions.filter(p => p.status === "lost").length,
     pending: predictions.filter(p => p.status === "pending").length,
-    winRate: Math.round((predictions.filter(p => p.status === "won").length / predictions.filter(p => p.status !== "pending").length) * 100),
+    winRate: completedPredictions.length > 0 
+      ? Math.round((predictions.filter(p => p.status === "won").length / completedPredictions.length) * 100)
+      : 0,
     profit: 12.4,
     streak: 5,
   };
@@ -122,31 +125,28 @@ const Predictions = () => {
     switch (status) {
       case "won":
         return {
-          gradient: "from-win/20 via-win/10 to-transparent",
-          border: "border-win/30",
-          iconBg: "bg-win/20",
+          gradient: "from-win/15 via-win/5 to-transparent",
+          iconBg: "bg-win/15",
           iconColor: "text-win",
-          badge: "bg-win/20 text-win border border-win/30",
-          glow: "shadow-[0_4px_20px_-4px_hsl(var(--win)/0.4)]",
+          badge: "bg-win/15 text-win border border-win/20",
+          glow: "shadow-[0_4px_20px_-4px_hsl(var(--win)/0.3)]",
           icon: Check,
         };
       case "lost":
         return {
-          gradient: "from-lose/15 via-lose/5 to-transparent",
-          border: "border-lose/20",
-          iconBg: "bg-lose/15",
+          gradient: "from-lose/10 via-lose/5 to-transparent",
+          iconBg: "bg-lose/10",
           iconColor: "text-lose",
-          badge: "bg-lose/15 text-lose border border-lose/20",
+          badge: "bg-lose/10 text-lose border border-lose/15",
           glow: "",
           icon: X,
         };
       default:
         return {
-          gradient: "from-accent/15 via-accent/5 to-transparent",
-          border: "border-border/50",
-          iconBg: "bg-accent/15",
+          gradient: "from-accent/10 via-accent/5 to-transparent",
+          iconBg: "bg-accent/10",
           iconColor: "text-accent",
-          badge: "bg-accent/15 text-accent border border-accent/30",
+          badge: "bg-accent/10 text-accent border border-accent/20",
           glow: "",
           icon: Clock,
         };
@@ -161,22 +161,19 @@ const Predictions = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-24 overflow-hidden">
-      {/* Premium Header */}
-      <div className="relative px-5 pt-6 pb-4">
-        {/* Background Glow */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-        
-        <div className="relative flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-background bg-pattern pb-28">
+      {/* Header */}
+      <div className="px-5 pt-6 pb-4">
+        <div className="flex items-center justify-between mb-6 animate-slide-up">
           <div>
-            <h1 className="text-2xl font-display font-bold tracking-tight text-foreground">
+            <h1 className="text-2xl font-display font-bold text-foreground">
               Tahminlerim
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5">Son 30 günlük performans</p>
           </div>
           <div className="flex items-center gap-2 glass-card-premium px-3 py-2 rounded-xl">
-            <div className="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center">
-              <Flame className="w-4 h-4 text-foreground" />
+            <div className="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center shadow-glow-accent">
+              <Flame className="w-4 h-4 text-accent-foreground" />
             </div>
             <div className="text-right">
               <p className="text-xs text-muted-foreground">Seri</p>
@@ -185,12 +182,11 @@ const Predictions = () => {
           </div>
         </div>
 
-        {/* Premium Stats Grid */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          {/* Win Card */}
-          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '0ms' }}>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '50ms' }}>
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-win/30 to-win/10 flex items-center justify-center shadow-[0_4px_20px_-4px_hsl(var(--win)/0.4)]">
+              <div className="w-10 h-10 rounded-xl bg-win/10 flex items-center justify-center">
                 <Trophy className="w-5 h-5 text-win" />
               </div>
               <div className="flex items-center gap-1 text-win text-xs font-semibold">
@@ -200,46 +196,44 @@ const Predictions = () => {
             </div>
             <p className="text-2xl font-display font-bold text-foreground">{stats.won}</p>
             <p className="text-xs text-muted-foreground mt-1">Kazanılan</p>
-            <div className="mt-2 h-1 bg-secondary rounded-full overflow-hidden">
+            <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
               <div className="h-full bg-win rounded-full transition-all duration-500" style={{ width: `${stats.winRate}%` }} />
             </div>
           </div>
 
-          {/* Lost Card */}
-          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '50ms' }}>
+          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '100ms' }}>
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lose/20 to-lose/5 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-lose/10 flex items-center justify-center">
                 <X className="w-5 h-5 text-lose" />
               </div>
             </div>
             <p className="text-2xl font-display font-bold text-foreground">{stats.lost}</p>
             <p className="text-xs text-muted-foreground mt-1">Kaybedilen</p>
-            <div className="mt-2 h-1 bg-secondary rounded-full overflow-hidden">
-              <div className="h-full bg-lose/60 rounded-full transition-all duration-500" style={{ width: `${(stats.lost / (stats.won + stats.lost)) * 100}%` }} />
+            <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
+              <div className="h-full bg-lose/60 rounded-full transition-all duration-500" style={{ width: `${completedPredictions.length > 0 ? (stats.lost / completedPredictions.length) * 100 : 0}%` }} />
             </div>
           </div>
 
-          {/* Pending Card */}
-          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <div className="glass-card-premium rounded-2xl p-4 animate-slide-up" style={{ animationDelay: '150ms' }}>
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/25 to-accent/5 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
                 <Target className="w-5 h-5 text-accent" />
               </div>
             </div>
             <p className="text-2xl font-display font-bold text-foreground">{stats.pending}</p>
             <p className="text-xs text-muted-foreground mt-1">Bekleyen</p>
-            <div className="mt-2 h-1 bg-secondary rounded-full overflow-hidden">
+            <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
               <div className="h-full bg-accent/60 rounded-full animate-pulse" style={{ width: '100%' }} />
             </div>
           </div>
         </div>
 
         {/* Win Rate Banner */}
-        <div className="glass-card-premium rounded-2xl p-4 mb-5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+        <div className="glass-card-premium rounded-2xl p-4 mb-5 relative overflow-hidden animate-slide-up" style={{ animationDelay: '200ms' }}>
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 pointer-events-none" />
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.5)]">
+              <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shadow-glow-primary">
                 <BarChart3 className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
@@ -255,15 +249,15 @@ const Predictions = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-          {filterTabs.map((tab, i) => (
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 animate-slide-up" style={{ animationDelay: '250ms' }}>
+          {filterTabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
                 filter === tab.key 
-                  ? "gradient-primary text-primary-foreground shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.5)]" 
-                  : "bg-secondary/60 text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  ? "gradient-primary text-primary-foreground shadow-glow-primary" 
+                  : "bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground"
               }`}
             >
               {tab.label}
@@ -278,7 +272,7 @@ const Predictions = () => {
       </div>
 
       {/* Predictions List */}
-      <div className="px-5 space-y-3 overflow-y-auto scrollbar-hide">
+      <div className="px-5 space-y-3">
         {filteredPredictions.map((pred, i) => {
           const config = getStatusConfig(pred.status);
           const StatusIcon = config.icon;
@@ -287,13 +281,11 @@ const Predictions = () => {
             <div
               key={pred.id}
               className={`glass-card-premium rounded-2xl overflow-hidden card-hover cursor-pointer animate-slide-up ${config.glow}`}
-              style={{ animationDelay: `${i * 50 + 150}ms` }}
+              style={{ animationDelay: `${300 + i * 50}ms` }}
             >
-              {/* Gradient Overlay */}
               <div className={`absolute inset-0 bg-gradient-to-r ${config.gradient} pointer-events-none`} />
               
               <div className="relative p-4">
-                {/* Top Row */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 rounded-xl ${config.iconBg} flex items-center justify-center`}>
@@ -309,7 +301,6 @@ const Predictions = () => {
                   </div>
                 </div>
                 
-                {/* Match Info */}
                 <div className="flex items-center gap-4 mb-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
@@ -333,15 +324,13 @@ const Predictions = () => {
                   </div>
                 </div>
                 
-                {/* Bottom Row */}
                 <div className="flex items-center justify-between pt-3 border-t border-border/30">
                   <div className="flex items-center gap-2">
                     <Zap className="w-4 h-4 text-accent" />
                     <span className="text-sm font-semibold text-foreground">{pred.prediction}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    {/* Confidence Badge */}
-                    <div className="flex items-center gap-1.5 bg-secondary/50 px-2 py-1 rounded-lg">
+                    <div className="flex items-center gap-1.5 bg-secondary px-2 py-1 rounded-lg">
                       <Award className="w-3 h-3 text-primary" />
                       <span className="text-xs font-medium text-muted-foreground">%{pred.confidence}</span>
                     </div>
