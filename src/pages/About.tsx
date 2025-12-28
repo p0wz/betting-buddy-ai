@@ -46,7 +46,7 @@ const team = [
 ];
 
 const milestones = [
-  { year: "2022", title: "Kuruluş", description: "ProTahmin fikri doğdu ve ilk prototip geliştirildi." },
+  { year: "2022", title: "Kuruluş", description: "SENTIO fikri doğdu ve ilk prototip geliştirildi." },
   { year: "2023", title: "10K Kullanıcı", description: "Platform 10.000 aktif kullanıcıya ulaştı." },
   { year: "2024", title: "AI Entegrasyonu", description: "Gelişmiş AI algoritmaları platforma entegre edildi." },
   { year: "2024", title: "50K Kullanıcı", description: "Topluluk 50.000 üyeyi aştı." },

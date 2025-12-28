@@ -48,8 +48,8 @@ const Auth = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl gradient-primary glow-primary mb-4">
             <Zap className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground">BetPro</h1>
-          <p className="text-muted-foreground mt-2">Profesyonel tahmin platformu</p>
+          <h1 className="text-3xl font-bold text-foreground">SENTIO</h1>
+          <p className="text-muted-foreground mt-2">AI Destekli Futbol Tahmin Platformu</p>
         </div>
 
         {/* Auth Card */}
