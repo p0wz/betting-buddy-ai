@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Settings, Trophy, TrendingUp, Crown, ChevronRight, Bell, Shield, LogOut, CreditCard, Star, Award, Zap } from "lucide-react";
-import BottomNavigation from "@/components/BottomNavigation";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"home" | "live" | "predictions" | "profile">("profile");
 
   const user = {
     name: "Ahmet Yılmaz",
@@ -18,7 +16,7 @@ const Profile = () => {
 
   const stats = [
     { label: "Toplam Tahmin", value: "156", icon: TrendingUp, color: "text-primary", bgColor: "bg-primary/10" },
-    { label: "Başarı Oranı", value: "78%", icon: Trophy, color: "text-win", bgColor: "bg-win/10" },
+    { label: "Başarı Oranı", value: "78%", icon: Trophy, color: "text-green-500", bgColor: "bg-green-500/10" },
     { label: "Kazanç", value: "+₺4,520", icon: CreditCard, color: "text-accent", bgColor: "bg-accent/10" },
   ];
 
@@ -31,9 +29,9 @@ const Profile = () => {
 
   const menuItems = [
     { icon: Crown, label: "Premium Üyelik", action: () => navigate("/premium"), badge: user.plan, badgeColor: "bg-primary/15 text-primary" },
-    { icon: Bell, label: "Bildirimler", action: () => {}, badge: "3", badgeColor: "bg-accent/15 text-accent" },
+    { icon: Bell, label: "Bildirimler", action: () => navigate("/notifications"), badge: "3", badgeColor: "bg-accent/15 text-accent" },
     { icon: Shield, label: "Gizlilik & Güvenlik", action: () => {} },
-    { icon: Settings, label: "Ayarlar", action: () => {} },
+    { icon: Settings, label: "Ayarlar", action: () => navigate("/settings") },
   ];
 
   const handleLogout = () => {
@@ -41,30 +39,30 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-pattern pb-28">
-      {/* Header */}
-      <header className="px-5 pt-6 pb-4 flex items-center justify-between animate-slide-up">
-        <h1 className="text-2xl font-display font-bold text-foreground">Profil</h1>
-        <Button variant="ghost" size="icon" className="rounded-xl hover:bg-secondary">
-          <Settings className="w-5 h-5 text-muted-foreground" />
-        </Button>
-      </header>
+    <AppLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-foreground">Profil</h1>
+          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
+            <Settings className="w-5 h-5 text-muted-foreground" />
+          </Button>
+        </div>
 
-      {/* Profile Card */}
-      <div className="px-5 mb-6 animate-slide-up" style={{ animationDelay: '50ms' }}>
-        <div className="glass-card-premium rounded-3xl p-6 relative overflow-hidden">
+        {/* Profile Card */}
+        <div className="bg-card border border-border rounded-3xl p-6 relative overflow-hidden">
           {/* Background Decoration */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2" />
           
           <div className="relative flex items-center gap-4 mb-6">
-            <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center shadow-glow-primary">
+            <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center">
               <User className="w-10 h-10 text-primary-foreground" />
             </div>
             <div className="flex-1">
               <h2 className="text-xl font-bold text-foreground">{user.name}</h2>
               <p className="text-sm text-muted-foreground">{user.email}</p>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs px-3 py-1 rounded-full gradient-accent text-accent-foreground font-bold">
+                <span className="text-xs px-3 py-1 rounded-full bg-accent text-accent-foreground font-bold">
                   {user.plan}
                 </span>
                 <span className="text-xs text-muted-foreground">Üye: {user.joinDate}</span>
@@ -77,7 +75,7 @@ const Profile = () => {
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
-                <div key={idx} className="bg-secondary/50 rounded-2xl p-4 text-center">
+                <div key={idx} className="bg-muted/50 rounded-2xl p-4 text-center">
                   <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${stat.bgColor} mb-2`}>
                     <Icon className={`w-5 h-5 ${stat.color}`} />
                   </div>
@@ -88,35 +86,33 @@ const Profile = () => {
             })}
           </div>
         </div>
-      </div>
 
-      {/* Achievements */}
-      <div className="px-5 mb-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
-        <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">BAŞARILAR</h3>
-        <div className="glass-card-premium rounded-2xl p-4">
-          <div className="flex items-center justify-between">
-            {achievements.map((achievement, idx) => {
-              const Icon = achievement.icon;
-              return (
-                <div key={idx} className="flex flex-col items-center gap-2">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    achievement.completed ? 'gradient-primary shadow-glow-primary' : 'bg-secondary'
-                  }`}>
-                    <Icon className={`w-6 h-6 ${achievement.completed ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
+        {/* Achievements */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">BAŞARILAR</h3>
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="flex items-center justify-between">
+              {achievements.map((achievement, idx) => {
+                const Icon = achievement.icon;
+                return (
+                  <div key={idx} className="flex flex-col items-center gap-2">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      achievement.completed ? 'bg-primary' : 'bg-muted'
+                    }`}>
+                      <Icon className={`w-6 h-6 ${achievement.completed ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center">{achievement.label}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground text-center">{achievement.label}</span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Premium Banner */}
-      <div className="px-5 mb-6 animate-slide-up" style={{ animationDelay: '150ms' }}>
+        {/* Premium Banner */}
         <button
           onClick={() => navigate("/premium")}
-          className="w-full rounded-2xl p-5 relative overflow-hidden gradient-premium shadow-glow-primary"
+          className="w-full rounded-2xl p-5 relative overflow-hidden bg-gradient-to-r from-primary via-primary/90 to-accent"
         >
           <div className="relative flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
@@ -129,28 +125,26 @@ const Profile = () => {
             <ChevronRight className="w-6 h-6 text-white" />
           </div>
         </button>
-      </div>
 
-      {/* Menu */}
-      <div className="px-5 mb-6 animate-slide-up" style={{ animationDelay: '200ms' }}>
-        <div className="glass-card-premium rounded-2xl overflow-hidden">
+        {/* Menu */}
+        <div className="bg-card border border-border rounded-2xl overflow-hidden">
           {menuItems.map((item, idx) => {
             const Icon = item.icon;
             return (
               <button
                 key={idx}
                 onClick={item.action}
-                className="w-full flex items-center justify-between p-4 hover:bg-secondary/50 transition-colors border-b border-border/30 last:border-0"
+                className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors border-b border-border last:border-0"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
                     <Icon className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <span className="font-medium text-foreground">{item.label}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {item.badge && (
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${item.badgeColor || 'bg-secondary text-muted-foreground'}`}>
+                    <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${item.badgeColor || 'bg-muted text-muted-foreground'}`}>
                       {item.badge}
                     </span>
                   )}
@@ -160,10 +154,8 @@ const Profile = () => {
             );
           })}
         </div>
-      </div>
 
-      {/* Logout */}
-      <div className="px-5 animate-slide-up" style={{ animationDelay: '250ms' }}>
+        {/* Logout */}
         <Button
           variant="outline"
           onClick={handleLogout}
@@ -173,9 +165,7 @@ const Profile = () => {
           Çıkış Yap
         </Button>
       </div>
-
-      <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-    </div>
+    </AppLayout>
   );
 };
 
