@@ -31,7 +31,7 @@ const Auth = () => {
       description: "Yönlendiriliyorsunuz..."
     });
     
-    setTimeout(() => navigate("/app"), 1000);
+    setTimeout(() => navigate("/dashboard"), 1000);
   };
 
   return (
