@@ -276,7 +276,7 @@ const Predictions = () => {
             return (
               <div
                 key={pred.id}
-                className={`bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors cursor-pointer ${config.glow}`}
+                className={`relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors cursor-pointer ${config.glow}`}
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${config.gradient} pointer-events-none`} />
                 
