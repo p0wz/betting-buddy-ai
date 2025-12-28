@@ -37,7 +37,7 @@ export const Footer = () => {
               <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
                 <Trophy className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-display text-xl text-gradient">ProTahmin</span>
+              <span className="font-display text-xl text-gradient">SENTIO</span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6 max-w-xs">
               AI destekli futbol tahmin platformu. Daha akıllı tahminler, daha yüksek kazançlar.
@@ -101,7 +101,7 @@ export const Footer = () => {
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 ProTahmin. Tüm hakları saklıdır.
+            © 2024 SENTIO. Tüm hakları saklıdır.
           </p>
           <div className="flex gap-6">
             {footerLinks.legal.map((link) => (

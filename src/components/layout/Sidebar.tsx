@@ -44,7 +44,7 @@ export const Sidebar = () => {
             <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
               <Trophy className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="font-display text-xl text-gradient">ProTahmin</span>
+            <span className="font-display text-xl text-gradient">SENTIO</span>
           </Link>
         )}
         {collapsed && (
